@@ -15,7 +15,7 @@ USER_ID=$(id -u)
 ROOT_CHECK(){
     if [ $USER_ID -ne 0 ]
     then
-        echo -e "please run the script with ..$R root privillages $N" | tee -a &>>$LOG_FILE
+        echo -e "please run the script with ..$R root privillages $N"
         exit 1
    fi 
 }
