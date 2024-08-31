@@ -42,11 +42,11 @@ dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installed nodejs"
 
 echo "adding user expense"
-if [ s? -ne 0 ]
+if [ $? -ne 0 ]
 then
     echo -e "user not added ..$Y ..adding user $N"
     useradd expense
-    VALIDATE S? "user adding"
+    VALIDATE $? "user adding"
 else
     echo -e "already added user $Y skipping now $N"
 fi
@@ -55,7 +55,7 @@ mkdir -p /app
 
 cd /app
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
-VALIDATE S? "downloading application"
+VALIDATE $? "downloading application"
 
 rm -rf /app*
 unzip /tmp/backend.zip &>>$LOG_FILE
