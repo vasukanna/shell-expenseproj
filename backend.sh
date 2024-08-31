@@ -4,6 +4,7 @@ LOG_FOLDER="expense-script"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 TIME_STAMP=$(date +%Y-%m-%d-%H)
 LOG_FILE=$LOG_FOLDER/$SCRIPT_NAME-$TIME_STAMP.log
+
 mkdir -p expense-script
 
 R="\e[31m"
@@ -59,7 +60,7 @@ VALIDATE $? "downloading application"
 
 cd /app
 rm -rf /app/*
-unzip /tmp/backend.zip &>>$LOG_FILE
+unzip /tmp/backend.zip 
 VALIDATE $? "extracting backend application"
 
 npm install 
