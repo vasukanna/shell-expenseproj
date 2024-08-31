@@ -1,11 +1,11 @@
 #!/bin/bash
 
-LOG_FOLDER="expense-script"
+LOG_FOLDER="/var/log/expense-script"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
 TIME_STAMP=$(date +%Y-%m-%d-%H)
 LOG_FILE=$LOG_FOLDER/$SCRIPT_NAME-$TIME_STAMP.log
 
-mkdir -p expense-script
+mkdir -p $LOG_FOLDER
 
 R="\e[31m"
 G="\e[32m"
@@ -55,7 +55,7 @@ fi
 mkdir -p /app
 VALIDATE $? "creating app"
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
 VALIDATE $? "downloading application"
 
 cd /app
@@ -64,8 +64,8 @@ unzip /tmp/backend.zip
 VALIDATE $? "extracting backend application"
 
 npm install 
-pwd
-#cp /home/ec2-user/shell-expenseproj/backend.service /etc/systemd/system/backend.service
+#pwd
+cp /home/ec2-user/shell-expenseproj/backend.service /etc/systemd/system/backend.service
 
 dnf install mysql -y 
 VALIDATE $? "insatll mysql" 
@@ -82,7 +82,7 @@ VALIDATE $? "start backend"
 systemctl enable backend 
 VALIDATE $? "enable backend"
 
-systemctl restart backend &>>$LOG_FILE
+systemctl restart backend 
 VALIDATE $? "restart backend"
 
 
