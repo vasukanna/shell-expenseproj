@@ -52,12 +52,15 @@ else
 fi
 
 mkdir -p /app
-
+VALIDATE $? "creating app"
 cd /app
+VALIDATE $? "inside app flode"
+
+rm -rf /app/*
+
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
 VALIDATE $? "downloading application"
 
-rm -rf /app*
 unzip /tmp/backend.zip &>>$LOG_FILE
 VALIDATE $? "extracting backend application"
 
