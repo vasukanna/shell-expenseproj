@@ -17,7 +17,7 @@ ROOT_CHECK(){
     then
         echo -e "please run the script with ..${R} root privillages ${N} " | tee -a &>>$LOG_FILE
         exit 1
-    fi 
+   fi 
 }
 
 VALIDATE(){
@@ -27,6 +27,7 @@ VALIDATE(){
         exit1
     else
         echo -e "$2 is ...${G} SUCCESS ${N} " | tee -a &>>$LOG_FILE
+    fi
 }
 
 ROOT_CHECK
