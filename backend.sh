@@ -33,13 +33,13 @@ VALIDATE(){
 
 ROOT_CHECK
 
-dnf module disable nodejs -y 
+dnf module disable nodejs -y &>>$LOG_FILE
 VALIDATE $? "disabled existed nodejs"
 
-dnf module enable nodejs:20 -y 
+dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "enable nodejs20"
 
-dnf install nodejs -y 
+dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installed nodejs"
 
 id expense &>>$LOG_FILE
