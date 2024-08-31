@@ -33,20 +33,20 @@ VALIDATE(){
 
 ROOT_CHECK
 
-dnf module disable nodejs -y &>>$LOG_FILE
+dnf module disable nodejs -y 
 VALIDATE $? "disabled existed nodejs"
 
-dnf module enable nodejs:20 -y &>>$LOG_FILE
+dnf module enable nodejs:20 -y 
 VALIDATE $? "enable nodejs20"
 
-dnf install nodejs -y &>>$LOG_FILE
+dnf install nodejs -y 
 VALIDATE $? "installed nodejs"
 
 id expense &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
     echo -e "user not added ..$G ..ADDING USER $N"
-    useradd expense &>>$LOG_FILE
+    useradd expense 
     VALIDATE $? "user adding"
 else
     echo -e "already added user $Y SKIPPING $N"
@@ -55,7 +55,7 @@ fi
 mkdir -p /app
 VALIDATE $? "creating app"
 
-curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
+curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
 VALIDATE $? "downloading application"
 
 cd /app
@@ -67,19 +67,19 @@ npm install
 pwd
 #cp /home/ec2-user/shell-expenseproj/backend.service /etc/systemd/system/backend.service
 
-dnf install mysql -y &>>$LOG_FILE
-VALIDATE $? "insatll mysql"
+dnf install mysql -y 
+VALIDATE $? "insatll mysql" 
 
-mysql -h 172.31.41.165 -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE
+mysql -h 172.31.41.165 -uroot -pExpenseApp@1 < /app/schema/backend.sql 
 VALIDATE $? "loading schema"
 
-systemctl daemon-reload &>>$LOG_FILE
+systemctl daemon-reload 
 VALIDATE $? "reload backend"
 
-systemctl start backend &>>$LOG_FILE
+systemctl start backend 
 VALIDATE $? "start backend"
 
-systemctl enable backend &>>$LOG_FILE
+systemctl enable backend 
 VALIDATE $? "enable backend"
 
 systemctl restart backend &>>$LOG_FILE
