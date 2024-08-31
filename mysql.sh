@@ -1,8 +1,8 @@
 #!/bin/bash
 
-LOG_FOLDER="var/log/expense"
+LOG_FOLDER="var/log/shell-script"
 SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-TIME_STAMP=$(date +%Y-%M-%D-%H)
+TIME_STAMP=$(date +%Y-%m-%d-%H)
 LOG_FILE=$LOG_FOLDER/$SCRIPT_NAME-$TIME_STAMP.log
 
 R="\e[31m"
@@ -15,7 +15,7 @@ USER_ID=$(id -u)
 ROOT_CHECK(){
     if [ $USER_ID -ne 0 ]
     then
-        echo -e "please run the script with ..${R} root privillages ${N} " | tee -a &>>$LOG_FILE
+        echo -e "please run the script with ..$R root privillages $N" | tee -a &>>$LOG_FILE
         exit 1
    fi 
 }
@@ -23,10 +23,10 @@ ROOT_CHECK(){
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
-        echo -e "$2 is ...${R} FAILED ${N} " | tee -a &>>$LOG_FILE
+        echo -e "$2 is ...$R FAILED $N" | tee -a &>>$LOG_FILE
         exit1
     else
-        echo -e "$2 is ...${G} SUCCESS ${N} " | tee -a &>>$LOG_FILE
+        echo -e "$2 is ...$G SUCCESS $N " | tee -a &>>$LOG_FILE
     fi
 }
 
@@ -41,15 +41,14 @@ VALIDATE $? "enabling mysql"
 systemctl start mysqld &>>LOG_FILE
 VALIDATE $? "started mysql"
 
-mysql -h 172.31.41.165 -u root -pExpenseApp@1 -e 'show databases' | tee -a &>>$LOG_FILE
+mysql -h 172.31.41.165 -u root -pExpenseApp@1 -e 'show databases;' &>>$LOG_FILE
 if [ $? -ne 0 ]
 then 
-    echo -e "please set up ..${R} mysql root password ${N}"
+    echo -e "please set up ..$R mysql root password $N"
     mysql_secure_installation --set-root-pass ExpenseApp@1
     VALIDATE $? "mysql paswwordsetting"
-    exit1
 else
-    echo -e "already set the password ${Y}..skipping ${N}"
+    echo -e "already set the password $Y..skipping $N" | tee -a $LOG_FILE
 fi
 
 
