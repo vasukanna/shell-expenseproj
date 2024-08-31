@@ -41,33 +41,32 @@ VALIDATE $? "enable nodejs20"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "installed nodejs"
 
-echo "adding user expense"
+id expense &>>$LOG_FILE
 if [ $? -ne 0 ]
 then
-    echo -e "user not added ..$Y ..adding user $N"
-    useradd expense
+    echo -e "user not added ..$G ..ADDING USER $N"
+    useradd expense &>>$LOG_FILE
     VALIDATE $? "user adding"
 else
-    echo -e "already added user $Y skipping now $N"
+    echo -e "already added user $Y SKIPPING $N"
 fi
 
 mkdir -p /app
 VALIDATE $? "creating app"
-cd /app
-VALIDATE $? "inside app flode"
 
-rm -rf /app/*
+
+
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE
 VALIDATE $? "downloading application"
 
+cd /app
+rm -rf /app/*
 unzip /tmp/backend.zip &>>$LOG_FILE
 VALIDATE $? "extracting backend application"
 
 npm install &>>$LOG_FILE
-VALIDATE $? "npm installed"
-
-cp  /home/ec2-user/shell-expenseproj/backend.service /etc/systemd/system/backend.service
+cp /home/ec2-user/shell-expenseproj/backend.service /etc/systemd/system/backend.service
 
 dnf install mysql -y &>>$LOG_FILE
 VALIDATE $? "insatll mysql"
