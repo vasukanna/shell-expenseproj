@@ -25,9 +25,9 @@ ROOT_CHECK(){
 VALIDATE(){
     if [ $1 -ne 0 ]
     then
-        echo -e "$2 is ...$R FAILED $N" | tee -a $LOG_FILE
+        echo -e "$2 is $R FAILED $N" | tee -a $LOG_FILE
     else
-        echo -e "$2 is ...$G SUCCESS $N " | tee -a $LOG_FILE
+        echo -e " $2 is $G SUCCESS $N " | tee -a $LOG_FILE
     fi
 }
 
@@ -63,7 +63,7 @@ rm -rf /app/*
 unzip /tmp/backend.zip 
 VALIDATE $? "extracting backend application"
 
-npm install 
+npm install &>>$LOG_FILE
 #pwd
 cp /home/ec2-user/shell-expenseproj/backend.service /etc/systemd/system/backend.service
 
